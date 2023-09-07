@@ -1,6 +1,11 @@
 const express = require("express");
+const morgan = require("morgan");
 const cors = require("cors");
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
+
+const app = express();
+
+app.use(morgan("dev"));
 
 const corsOptions = {
   origin: "*",
@@ -8,36 +13,30 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
-const app = express();
 app.use(cors(corsOptions));
 
-app.get("/information", (req, res) => {
-  const { slackName, track } = req.query;
+app.get("/v1", (req, res) => {
+  const { slack_name, track } = req.query;
 
-  if (!slackName || !track) {
+  if (!slack_name || !track) {
     return res.status(400).json({ error: "Missing required parameters." });
   }
-
 
   const currentDay = new Date().toLocaleString("en-US", { weekday: "long" });
   const utcTime = new Date().toISOString();
 
-   const githubFileUrl =
-     "https://github.com/adefoluso/HNG-Stage1.git/repo/blob/main/app.js";
-   const githubRepoUrl = "https://github.com/adefoluso/HNG-Stage1.git";
+  const githubFileUrl ="https://github.com/adefoluso/HNG-Stage1/blob/main/app.js";
+  const githubRepoUrl ="https://github.com/adefoluso/HNG-Stage1/tree/main";
 
-   /Users/admin/Desktop/HNG/stage_1/app.js
-
-
-   res.status(200).json({
-     slackName,
-     current_day: currentDay,
-     utc_time: utcTime,
-     track,
-     github_file_url: githubFileUrl,
-     github_repo_url: githubRepoUrl,
-     status_code: 200,
-   });
+  res.status(200).json({
+    slack_name,
+    current_day: currentDay,
+    utc_time: utcTime,
+    track,
+    github_file_url: githubFileUrl,
+    github_repo_url: githubRepoUrl,
+    status_code: 200,
+  });
 });
 
 app.listen(PORT, () => {
