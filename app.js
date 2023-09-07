@@ -24,12 +24,13 @@ app.get("/api", (req, res) => {
 
   const currentDay = new Date().toLocaleString("en-US", { weekday: "long" });
   const currentUTCDate = new Date();
-  const utcTime = new Date(
+  const isoString = new Date(
     currentUTCDate.getTime() - currentUTCDate.getTimezoneOffset() * 60000
   ).toISOString();
+  const utcTime = isoString.slice(0, -5) + "Z";
 
-
-  const githubFileUrl ="https://github.com/adefoluso/HNG-Stage1/blob/main/app.js";
+  const githubFileUrl =
+    "https://github.com/adefoluso/HNG-Stage1/blob/main/app.js";
   const githubRepoUrl = "https://github.com/adefoluso/HNG-Stage1/tree/main";
 
   res.status(200).json({
