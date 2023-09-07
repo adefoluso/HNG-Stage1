@@ -15,7 +15,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get("/v1", (req, res) => {
+app.get("/api", (req, res) => {
   const { slack_name, track } = req.query;
 
   if (!slack_name || !track) {
@@ -26,7 +26,7 @@ app.get("/v1", (req, res) => {
   const utcTime = new Date().toISOString();
 
   const githubFileUrl ="https://github.com/adefoluso/HNG-Stage1/blob/main/app.js";
-  const githubRepoUrl ="https://github.com/adefoluso/HNG-Stage1/tree/main";
+  const githubRepoUrl = "https://github.com/adefoluso/HNG-Stage1/tree/main";
 
   res.status(200).json({
     slack_name,
